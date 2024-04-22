@@ -1,6 +1,6 @@
 const app = Vue.createApp({
     // template: '<h1>Hello {{firstName}}</h1>',
-    data(){
+    data() {
         return {
             firstName: 'John',
             lastName: 'Doe',
@@ -10,15 +10,19 @@ const app = Vue.createApp({
         }
     },
     methods: {
-        getRandUser(){
-            // console.log(this.firstName);
-            this.firstName = 'Jane',
-            this.lastName = 'Dane',
-            this.email = 'jane@gmail.com',
-            this.gender = 'female',
-            this.picture = 'https://randomuser.me/api/portraits/women/5.jpg'
+        async getRandUser() {
+            const res = await fetch('https://randomuser.me/api')
+            const { results } = await res.json()
+
+            // console.log(results);
+
+            this.firstName = results[0].name.first,
+            this.lastName = results[0].name.last,
+            this.email = results[0].email,
+            this.gender = results[0].gender ,
+            this.picture = results[0].picture.large
         }
-    } 
+    }
 })
 
 app.mount('#app')
